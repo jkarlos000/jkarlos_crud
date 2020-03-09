@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+
+    app:
+        image: symfony:latest
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+            args:
+                - XDEBUG_DEFAULT_ENABLE=${XDEBUG_DEFAULT_ENABLE}
+                - XDEBUG_REMOTE_AUTOSTART=${XDEBUG_REMOTE_AUTOSTART}
+                - REMOTE_PORT=${REMOTE_PORT}
+                - XDEBUG_IDE_KEY=${XDEBUG_IDE_KEY}
+                - XDEBUG_LOCAL_HOST_IP=${XDEBUG_LOCAL_HOST_IP}
+                - XDEBUG_CLI_COLOR=${XDEBUG_CLI_COLOR}
+        environment:
+            - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
+        container_name: ${CONTAINER_APP_NAME}
+        expose:
+            - "80"
+            - "443"
+        ports:
+            - "${APP_WEB_PORT_HTTP}:80"
+            - "${APP_WEB_PORT_HTTPS}:443"
+        volumes:
+            - .:/var/www/html
+        depends_on:
+            - app-db
+        networks:
+            - app-network
+
+    app-db:
+        image: mysql:5.7.22
+        container_name: ${CONTAINER_DATABASE_NAME}
+        environment:
+            - MYSQL_ROOT_PASSWORD=${DATABASE_ROOT_PASSWORD}
+            - MYSQL_DATABASE=${DATABASE_NAME}
+        ports:
+            - "${APP_DB_PORT}:3306"
+        volumes:
+            - dbdata:/var/lib/mysql
+        networks:
+            - app-network
+
+#Docker Networks
+networks:
+    app-network:
+        driver: bridge
+#Volumes
+volumes:
+    dbdata:
+        driver: local

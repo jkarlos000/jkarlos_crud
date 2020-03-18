@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+//Route::middleware('auth:api')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
+
+/***
+ * Libros
+ */
+Route::resource('libros', 'Libro\LibroController', ['only' => ['index', 'show']]);
+/***
+ * Librerias
+ */
+Route::resource('librerias', 'Libreria\LibreriaController', ['except' => ['create', 'edit']]);

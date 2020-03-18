@@ -15,6 +15,7 @@ class Libro extends Model
         'name',
         'author',
         'pages',
+        'libreria_id',
     ];
 
     public function libreria(){

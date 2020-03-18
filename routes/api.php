@@ -22,7 +22,9 @@ use Illuminate\Support\Facades\Route;
  * Libros
  */
 Route::resource('libros', 'Libro\LibroController', ['only' => ['index', 'show']]);
+Route::resource('libros.librerias', 'Libro\LibroLibreriaController', ['only' => ['index']]);//Retirar es totalmente innecesario
 /***
  * Librerias
  */
 Route::resource('librerias', 'Libreria\LibreriaController', ['except' => ['create', 'edit']]);
+Route::resource('librerias.libros', 'Libreria\LibreriaLibroController', ['except' => ['create', 'show', 'edit']]);

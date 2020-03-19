@@ -6,10 +6,20 @@ use App\Http\Controllers\ApiController;
 //use App\Http\Controllers\Controller;
 use App\Libreria;
 use App\Libro;
+use App\Transformers\LibroTransformer;
 use Illuminate\Http\Request;
 
 class LibreriaLibroController extends ApiController
 {
+
+    /**
+     * LibreriaLibroController constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware('transform.input:' . LibroTransformer::class)->only(['store', 'update']);
+    }
     /**
      * Display a listing of the resource.
      *

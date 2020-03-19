@@ -4,10 +4,21 @@ namespace App\Http\Controllers\Libreria;
 
 use App\Http\Controllers\ApiController;
 use App\Libreria;
+use App\Transformers\LibreriaTransformer;
 use Illuminate\Http\Request;
 
 class LibreriaController extends ApiController
 {
+
+    /**
+     * LibreriaController constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware('transform.input:' . LibreriaTransformer::class)->only(['store', 'update']);
+    }
+
     /**
      * Display a listing of the resource.
      *

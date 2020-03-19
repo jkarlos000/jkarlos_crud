@@ -57,4 +57,18 @@ class LibreriaTransformer extends TransformerAbstract
 
         return isset($attributes[$index]) ? $attributes[$index] : null;
     }
+
+    public static function transformedAttribute($index){
+        $attributes = [
+            'id' => 'identificador',
+            'name' => 'nombre',
+            'direction' => 'direccion',
+            'telephone' => 'telefono',
+            'created_at' => 'fechaCreacion',
+            'updated_at' => 'fechaActualizacion',
+            'deleted_ad' => 'fechaEliminacion',
+        ];
+
+        return isset($attributes[$index]) ? $attributes[$index] : null;
+    }
 }

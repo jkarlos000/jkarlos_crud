@@ -4,10 +4,21 @@ namespace App\Http\Controllers\Libreria;
 
 use App\Http\Controllers\ApiController;
 use App\Libreria;
+use App\Transformers\LibreriaTransformer;
 use Illuminate\Http\Request;
 
 class LibreriaController extends ApiController
 {
+
+    /**
+     * LibreriaController constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware('transform.input:' . LibreriaTransformer::class)->only(['store', 'update']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -28,8 +39,8 @@ class LibreriaController extends ApiController
     public function store(Request $request)
     {
         $reglas = [
-            'name' => 'required|max:50',
-            'direction' => 'required|max:100',
+            'name' => 'required|string|max:50',
+            'direction' => 'required|string|max:100',
             'telephone' => 'max:10',
         ];
 
@@ -43,7 +54,7 @@ class LibreriaController extends ApiController
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param Libreria $libreria
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Libreria $libreria)
@@ -55,16 +66,16 @@ class LibreriaController extends ApiController
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param int $id
+     * @param Libreria $libreria
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, Libreria $libreria)
     {
         $reglas = [
-            'name' => 'max:50',
-            'direction' => 'max:100',
-            'telephone' => 'max:10',
+            'name' => 'string|max:50',
+            'direction' => 'string|max:100',
+            'telephone' => 'string|max:10',
         ];
 
         $this->validate($request, $reglas);
@@ -91,11 +102,13 @@ class LibreriaController extends ApiController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Libreria $libreria
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(Libreria $libreria)
     {
-        //
+        $libreria->delete();
+        return $this->showOne($libreria);
     }
 }

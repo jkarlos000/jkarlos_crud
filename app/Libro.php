@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Transformers\LibroTransformer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -15,7 +16,10 @@ class Libro extends Model
         'name',
         'author',
         'pages',
+        'libreria_id',
     ];
+
+    public $transformer = LibroTransformer::class;
 
     public function libreria(){
         return $this->belongsTo(Libreria::class);

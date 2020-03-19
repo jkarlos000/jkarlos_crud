@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Transformers\LibreriaTransformer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -16,6 +17,8 @@ class Libreria extends Model
         'direction',
         'telephone',
     ];
+
+    public $transformer = LibreriaTransformer::class;
 
     public function libros(){
         return $this->hasMany(Libro::class);
